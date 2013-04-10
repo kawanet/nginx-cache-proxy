@@ -1,0 +1,40 @@
+#!/bin/bash
+
+nginx=/usr/local/sbin/nginx
+logs=logs
+pid=logs/nginx.pid
+conf=etc/nginx.conf
+prog=$(basename $nginx)
+cd $(dirname $0)/../..
+path=$(pwd)
+
+usage() {
+    echo "Usage: $0 [start|stop|restart|configtest]"
+}
+
+start() {
+    [ -d $logs ] || mkdir $logs
+    [ -f $pid ] && stop
+    /bin/echo -n "starting $prog ...   "
+    $nginx -p $path -c $conf && echo '[OK]' || echo '[NG]'
+}
+
+stop() {
+    /bin/echo -n "stoping $prog ...    "
+    $nginx -p $path -c $conf -s stop && echo '[OK]' || echo '[NG]'
+}
+
+restart() {
+    stop
+    sleep 1
+    start
+}
+
+configtest() {
+    $nginx -p $path -c $conf -t
+}
+
+case $1 in
+    start|stop|restart|configtest) $1;;
+    *) usage;;
+esac
