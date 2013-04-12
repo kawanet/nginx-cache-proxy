@@ -1,6 +1,8 @@
 #!/bin/bash
 
-nginx=/usr/local/sbin/nginx
+nginx=$(which nginx 2> /dev/null)
+nginx=${nginx:-/usr/local/sbin/nginx}
+
 logs=logs
 pid=logs/nginx.pid
 conf=etc/nginx.conf
