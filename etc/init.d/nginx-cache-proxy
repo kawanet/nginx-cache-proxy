@@ -1,14 +1,20 @@
 #!/bin/bash
 
+# chkconfig:   - 85 15
+# description: Nginx HTTP Proxy Server
+
 nginx=$(which nginx 2> /dev/null)
 nginx=${nginx:-/usr/local/sbin/nginx}
+prog=$(basename $nginx)
+
+self=$(readlink -n $0)
+self=${self:-$0}
+cd $(dirname $self)/../..
+path=$(pwd)
 
 logs=logs
 pid=logs/nginx.pid
 conf=etc/nginx.conf
-prog=$(basename $nginx)
-cd $(dirname $0)/../..
-path=$(pwd)
 
 usage() {
     echo "Usage: $0 [start|stop|restart|configtest]"
