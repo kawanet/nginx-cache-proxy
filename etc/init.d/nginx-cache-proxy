@@ -3,8 +3,8 @@
 # chkconfig:   2345 85 15
 # description: Nginx HTTP Proxy Server
 
-nginx=$(which nginx 2> /dev/null)
-nginx=${nginx:-/usr/local/sbin/nginx}
+nginx=$(PATH=/usr/local/sbin:/usr/sbin:$PATH which nginx 2> /dev/null)
+nginx=${nginx:-nginx}
 prog=$(basename $nginx)
 
 self=$(readlink -n $0)
